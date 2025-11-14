@@ -1,15 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\CategoriaServicoController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ComunicacaoController;
+use App\Http\Controllers\PrestadorController;
+use App\Http\Controllers\ServicoProdutoController;
+use App\Http\Controllers\UsuarioController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user', [UserController::class,'index'])->name('user.index');
-Route::get('/photos/create',[PhotoController::class,'create'])->name('photos.create');
-Route::post('/photos',[PhotoController::class,'store'])->name('photos.store');
-Route::get('/photos/{photo}',[PhotoController::class,'show'])->name('photo.show');
-Route::get('/photos/{photo}/edit',[PhotoController::class,'edit'])->name('photo.edit');
-Route::put('/photos/{photo}',[PhotoController::class,'update'])->name('photo.update');
-Route::delete('/photos/{photo}',[PhotoController::class,'destroy'])->name('photo.destroy');
+Route::resource('agendamento', AgendamentoController::class);
+Route::resource('avaliacao', AvaliacaoController::class);
+Route::resource('categoria', CategoriaServicoController::class);
+Route::resource('cliente', ClienteController::class);
+Route::resource('comunicacao', ComunicacaoController::class);
+Route::resource('prestador', PrestadorController::class);
+Route::resource('servicoProduto', ServicoProdutoController::class);
+Route::resource('usuario', UsuarioController::class);

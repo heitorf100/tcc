@@ -4,29 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PrestadorController extends Controller
+class ClienteController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
 {
-    return view('prestador.index');
+    return view('cliente.index');
 }
 
 public function create()
 {
-    return view('prestador.create');
+    return view('cliente.create');
 }
 
 public function show($id)
 {
-    return view('prestador.show');
+    return view('cliente.show');
 }
 
 public function edit($id)
 {
-    return view('prestador.edit');
+    return view('cliente.edit');
 }
 
 }

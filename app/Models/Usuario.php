@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable; // se usar auth
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     use HasFactory;
 
@@ -13,40 +14,20 @@ class Usuario extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nome',
-        'cpf_cnpj',
-        'email',
-        'senha',
-        'telefone',
-        'tipo_usuario',
-        'data_cadastro',
-        'banco',
-        'agencia',
-        'conta',
-        'tipo_conta',
-        'logradouro',
-        'numero',
-        'bairro',
-        'cidade',
-        'estado',
-        'cep'
+        'nome','cpf_cnpj','email','senha','telefone','tipo_usuario',
+        'data_cadastro','banco','agencia','conta','tipo_conta',
+        'logradouro','numero','bairro','cidade','estado','cep'
     ];
 
-    protected $casts = [
-        'cpf_validado' => 'boolean',
-        'email_validado' => 'boolean',
-        'telefone_validado' => 'boolean',
-        'data_cadastro' => 'datetime',
-    ];
+    protected $hidden = ['senha'];
 
-    // exemplos de relacionamentos
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'usuario_id');
+    }
+
     public function prestador()
     {
         return $this->hasOne(Prestador::class, 'usuario_id');
-    }
-
-    public function comunicacoes()
-    {
-        return $this->hasMany(Comunicacao::class, 'cliente_usuario_id');
     }
 }
