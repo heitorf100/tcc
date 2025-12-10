@@ -14,9 +14,14 @@ class ProcedimentoController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['nome'=>'required|string|max:255']);
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
+            'duracao_minutos' => 'nullable|integer'
+        ]);
+
         $p = Procedimento::create($data);
-        return response()->json($p,201);
+        return response()->json($p, 201);
     }
 
     public function show(Procedimento $procedimento)
@@ -26,13 +31,19 @@ class ProcedimentoController extends Controller
 
     public function update(Request $request, Procedimento $procedimento)
     {
-        $procedimento->update($request->all());
+        $data = $request->validate([
+            'nome' => 'sometimes|required|string|max:255',
+            'descricao' => 'nullable|string',
+            'duracao_minutos' => 'nullable|integer'
+        ]);
+
+        $procedimento->update($data);
         return response()->json($procedimento);
     }
 
     public function destroy(Procedimento $procedimento)
     {
         $procedimento->delete();
-        return response()->json(['deleted'=>true]);
+        return response()->json(['deleted' => true]);
     }
 }

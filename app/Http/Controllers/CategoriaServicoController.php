@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\CategoriaServico;
@@ -7,32 +6,32 @@ use Illuminate\Http\Request;
 
 class CategoriaServicoController extends Controller
 {
-    public function index()
-    {
-        return response()->json(CategoriaServico::orderBy('nome')->paginate(15));
+    public function index(Request $request){
+        if ($request->wantsJson()) return CategoriaServico::paginate(15);
+        $items = CategoriaServico::paginate(15);
+        return view('categoria.index', compact('items'));
     }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate(['nome'=>'required|string|max:255']);
+    public function create(){ return view('categoria.create'); }
+    public function store(Request $request){
+        $data=$request->validate(['nome'=>'required|string|max:255','descricao'=>'nullable|string']);
         $c = CategoriaServico::create($data);
-        return response()->json($c,201);
+        if ($request->wantsJson()) return response()->json($c,201);
+        return redirect()->route('categoria.index')->with('success','Categoria criada');
     }
-
-    public function show(CategoriaServico $categoriaServico)
-    {
-        return response()->json($categoriaServico);
+    public function show(Request $request, CategoriaServico $categoria){
+        if ($request->wantsJson()) return $categoria;
+        return view('categoria.show', compact('categoria'));
     }
-
-    public function update(Request $request, CategoriaServico $categoriaServico)
-    {
-        $categoriaServico->update($request->all());
-        return response()->json($categoriaServico);
+    public function edit(CategoriaServico $categoria){ return view('categoria.edit', compact('categoria')); }
+    public function update(Request $request, CategoriaServico $categoria){
+        $data=$request->validate(['nome'=>'sometimes|required|string|max:255','descricao'=>'nullable|string']);
+        $categoria->update($data);
+        if ($request->wantsJson()) return $categoria;
+        return redirect()->route('categoria.index')->with('success','Atualizado');
     }
-
-    public function destroy(CategoriaServico $categoriaServico)
-    {
-        $categoriaServico->delete();
-        return response()->json(['deleted'=>true]);
+    public function destroy(Request $request, CategoriaServico $categoria){
+        $categoria->delete();
+        if ($request->wantsJson()) return response()->json(['deleted'=>true]);
+        return redirect()->route('categoria.index')->with('success','Excluído');
     }
 }

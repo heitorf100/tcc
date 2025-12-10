@@ -1,44 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Avaliações</h1>
+<div class="container">
+    <h1>Avaliações</h1>
 
-<a href="{{ route('avaliacao.create') }}">Nova Avaliação</a>
+    <a href="{{ route('avaliacao.create') }}" class="btn btn-primary mb-3">Nova Avaliação</a>
 
-@if(session('success'))
-    <p style="color:green">{{ session('success') }}</p>
-@endif
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Prestador</th>
+                <th>Nota</th>
+                <th>Comentário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($avaliacoes as $a)
+            <tr>
+                <td>{{ $a->id }}</td>
+                <td>{{ $a->cliente->nome ?? '—' }}</td>
+                <td>{{ $a->prestador->nome ?? '—' }}</td>
+                <td>{{ $a->nota }}</td>
+                <td>{{ Str::limit($a->comentario, 30) }}</td>
+                <td>
+                    <a href="{{ route('avaliacao.show', $a->id) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ route('avaliacao.edit', $a->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <form method="POST" action="{{ route('avaliacao.destroy', $a->id) }}" style="display:inline-block">
+                        @csrf @method('DELETE')
+                        <button onclick="return confirm('Excluir?')" class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-<table border="1" cellpadding="6" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Agendamento</th>
-            <th>Nota</th>
-            <th>Data</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-    @forelse($avaliacoes as $avaliacao)
-        <tr>
-            <td>{{ $avaliacao->id }}</td>
-            <td>{{ $avaliacao->agendamento_id ?? '-' }}</td>
-            <td>{{ $avaliacao->nota ?? '-' }}</td>
-            <td>{{ isset($avaliacao->data_avaliacao) ? \Carbon\Carbon::parse($avaliacao->data_avaliacao)->format('d/m/Y') : '-' }}</td>
-            <td>
-                <a href="{{ route('avaliacao.show', $avaliacao->id) }}">Ver</a> |
-                <a href="{{ route('avaliacao.edit', $avaliacao->id) }}">Editar</a> |
-                <form action="{{ route('avaliacao.destroy', $avaliacao->id) }}" method="POST" style="display:inline">
-                    @csrf
-                    @method('DELETE')
-                    <button onclick="return confirm('Confirma exclusão?')">Excluir</button>
-                </form>
-            </td>
-        </tr>
-    @empty
-        <tr><td colspan="5">Nenhuma avaliação encontrada.</td></tr>
-    @endforelse
-    </tbody>
-</table>
+    {{ $avaliacoes->links() }}
+</div>
 @endsection

@@ -1,39 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Usuários</h1>
+<div class="container">
+    <h1>Lista de Usuários</h1>
 
-<a href="{{ route('usuario.create') }}">Novo Usuário</a>
+    <a href="{{ route('usuario.create') }}">Criar Novo Usuário</a>
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
-<thead>
-<tr>
-    <th>ID</th>
-    <th>Nome</th>
-    <th>Email</th>
-    <th>Tipo</th>
-    <th>Ações</th>
-</tr>
-</thead>
-<tbody>
-@forelse($usuarios as $u)
-<tr>
-    <td>{{ $u->id }}</td>
-    <td>{{ $u->nome }}</td>
-    <td>{{ $u->email }}</td>
-    <td>{{ $u->tipo }}</td>
-    <td>
-        <a href="{{ route('usuario.show', $u->id) }}">Ver</a> |
-        <a href="{{ route('usuario.edit', $u->id) }}">Editar</a> |
-        <form action="{{ route('usuario.destroy', $u->id) }}" method="POST" style="display:inline">
-            @csrf @method('DELETE')
-            <button onclick="return confirm('Excluir usuário?')">Excluir</button>
-        </form>
-    </td>
-</tr>
-@empty
-<tr><td colspan="5">Nenhum usuário encontrado.</td></tr>
-@endforelse
-</tbody>
-</table>
+    <table border="1" cellpadding="8" style="margin-top:20px;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($usuarios as $usuario)
+            <tr>
+                <td>{{ $usuario->id }}</td>
+                <td>{{ $usuario->name }}</td>
+                <td>{{ $usuario->email }}</td>
+                <td>
+                    <a href="{{ route('usuario.show', $usuario) }}">Ver</a> |
+                    <a href="{{ route('usuario.edit', $usuario) }}">Editar</a> |
+                    <form action="{{ route('usuario.destroy', $usuario) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Excluir usuário?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    {{ $usuarios->links() }}
+</div>
 @endsection

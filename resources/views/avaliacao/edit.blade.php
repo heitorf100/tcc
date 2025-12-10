@@ -1,26 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Editar Avaliação #{{ $avaliacao->id }}</h1>
+<div class="container">
+    <h1>Editar Avaliação</h1>
 
-<form action="{{ route('avaliacao.update', $avaliacao->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+    <form action="{{ route('avaliacao.update', $avaliacao->id) }}" method="POST">
+        @csrf @method('PUT')
 
-    <label for="agendamento_id">Agendamento (ID)</label><br>
-    <input type="text" id="agendamento_id" name="agendamento_id" value="{{ old('agendamento_id', $avaliacao->agendamento_id) }}"><br><br>
+        <label>Cliente</label>
+        <select name="cliente_id" class="form-control mb-2">
+            @foreach($clientes as $c)
+                <option value="{{ $c->id }}" @selected($c->id == $avaliacao->cliente_id)>
+                    {{ $c->nome }}
+                </option>
+            @endforeach
+        </select>
 
-    <label for="nota">Nota (0-5)</label><br>
-    <input type="number" id="nota" name="nota" min="0" max="5" step="1" value="{{ old('nota', $avaliacao->nota) }}"><br><br>
+        <label>Prestador</label>
+        <select name="prestador_id" class="form-control mb-2">
+            @foreach($prestadores as $p)
+                <option value="{{ $p->id }}" @selected($p->id == $avaliacao->prestador_id)>
+                    {{ $p->nome }}
+                </option>
+            @endforeach
+        </select>
 
-    <label for="comentario">Comentário</label><br>
-    <textarea id="comentario" name="comentario" rows="4">{{ old('comentario', $avaliacao->comentario) }}</textarea><br><br>
+        <label>Agendamento</label>
+        <select name="agendamento_id" class="form-control mb-2">
+            <option value="">Nenhum</option>
+            @foreach($agendamentos as $ag)
+                <option value="{{ $ag->id }}" @selected($ag->id == $avaliacao->agendamento_id)>
+                    #{{ $ag->id }} - {{ $ag->data_hora }}
+                </option>
+            @endforeach
+        </select>
 
-    <label for="data_avaliacao">Data da Avaliação</label><br>
-    <input type="date" id="data_avaliacao" name="data_avaliacao" value="{{ old('data_avaliacao', optional($avaliacao->data_avaliacao)->format('Y-m-d')) }}"><br><br>
+        <label>Nota</label>
+        <input type="number" name="nota" step="0.1" max="5" min="0" class="form-control mb-2" value="{{ $avaliacao->nota }}">
 
-    <button type="submit">Atualizar</button>
-</form>
+        <label>Comentário</label>
+        <textarea name="comentario" class="form-control mb-3">{{ $avaliacao->comentario }}</textarea>
 
-<a href="{{ route('avaliacao.index') }}">Voltar</a>
+        <button class="btn btn-primary">Salvar</button>
+    </form>
+</div>
 @endsection

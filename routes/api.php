@@ -9,7 +9,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ComunicacaoController;
 use App\Http\Controllers\PrestadorController;
 use App\Http\Controllers\ServicoProdutoController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UsuarioViewController;
 
 Route::apiResource('agendamento', AgendamentoController::class);
 Route::apiResource('avaliacao', AvaliacaoController::class);
@@ -18,4 +18,4 @@ Route::apiResource('cliente', ClienteController::class);
 Route::apiResource('comunicacao', ComunicacaoController::class);
 Route::apiResource('prestador', PrestadorController::class);
 Route::apiResource('servicoProduto', ServicoProdutoController::class);
-Route::apiResource('usuario', UsuarioController::class);
+Route::apiResource('usuario', UsuarioViewController::class);

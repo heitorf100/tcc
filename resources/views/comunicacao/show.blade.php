@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Comunicação #{{ $comunicacao->id }}</h1>
+<div class="container">
+    <h1>Mensagem #{{ $comunicacao->id }}</h1>
 
-<p><strong>Remetente (ID):</strong> {{ $comunicacao->remetente_id }}</p>
-<p><strong>Destinatário (ID):</strong> {{ $comunicacao->destinatario_id }}</p>
-<p><strong>Mensagem:</strong> {{ $comunicacao->mensagem }}</p>
-<p><strong>Data de envio:</strong> {{ $comunicacao->data_envio }}</p>
+    <p><strong>Cliente:</strong> {{ $comunicacao->cliente->nome ?? "—" }}</p>
+    <p><strong>Prestador:</strong> {{ $comunicacao->prestador->nome ?? "—" }}</p>
+    <p><strong>Mensagem:</strong> {{ $comunicacao->mensagem }}</p>
+    <p><strong>Lido:</strong> {{ $comunicacao->lido ? "Sim" : "Não" }}</p>
+    <p><strong>Criado em:</strong> {{ $comunicacao->created_at }}</p>
 
-<a href="{{ route('comunicacao.edit', $comunicacao->id) }}">Editar</a> |
-<a href="{{ route('comunicacao.index') }}">Voltar</a>
+    <a href="{{ route('comunicacao.edit', $comunicacao->id) }}" class="btn btn-warning">Editar</a>
+    <a href="{{ route('comunicacao.index') }}" class="btn btn-secondary">Voltar</a>
+</div>
 @endsection

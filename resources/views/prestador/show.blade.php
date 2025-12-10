@@ -1,13 +1,10 @@
 @extends('layouts.app')
-
 @section('content')
-<h1>Prestador #{{ $prestador->id }}</h1>
-
-<p><strong>Usuário ID:</strong> {{ $prestador->usuario_id }}</p>
-<p><strong>Tipo:</strong> {{ $prestador->tipo }}</p>
-<p><strong>Valor:</strong> {{ $prestador->valor }}</p>
-<p><strong>Descrição:</strong> {{ $prestador->descricao }}</p>
-
-<a href="{{ route('prestador.edit', $prestador->id) }}">Editar</a> |
-<a href="{{ route('prestador.index') }}">Voltar</a>
+<div class="container">
+  <h1>Prestador: {{ $prestador->nome }}</h1>
+  <p><strong>Email:</strong> {{ $prestador->email }}</p>
+  <p><strong>Telefone:</strong> {{ $prestador->telefone }}</p>
+  <p><strong>Valor/h:</strong> {{ $prestador->valor_hora }}</p>
+  <a class="btn btn-secondary" href="{{ route('prestador.index') }}">Voltar</a>
+</div>
 @endsection

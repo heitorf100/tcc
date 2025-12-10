@@ -1,22 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Nova Comunicação</h1>
+<div class="container">
+    <h1>Nova Comunicação</h1>
 
-<form action="{{ route('comunicacao.store') }}" method="POST">
-    @csrf
+    <form action="{{ route('comunicacao.store') }}" method="POST">
+        @csrf
 
-    <label>Remetente (ID)</label><br>
-    <input type="number" name="remetente_id" value="{{ old('remetente_id') }}"><br><br>
+        <label>Cliente (opcional)</label>
+        <select name="cliente_id" class="form-control mb-2">
+            <option value="">Nenhum</option>
+            @foreach($clientes as $c)
+                <option value="{{ $c->id }}">{{ $c->nome }}</option>
+            @endforeach
+        </select>
 
-    <label>Destinatário (ID)</label><br>
-    <input type="number" name="destinatario_id" value="{{ old('destinatario_id') }}"><br><br>
+        <label>Prestador (opcional)</label>
+        <select name="prestador_id" class="form-control mb-2">
+            <option value="">Nenhum</option>
+            @foreach($prestadores as $p)
+                <option value="{{ $p->id }}">{{ $p->nome }}</option>
+            @endforeach
+        </select>
 
-    <label>Mensagem</label><br>
-    <textarea name="mensagem">{{ old('mensagem') }}</textarea><br><br>
+        <label>Mensagem</label>
+        <textarea class="form-control mb-2" name="mensagem" required></textarea>
 
-    <button type="submit">Enviar</button>
-</form>
+        <label>Lido?</label>
+        <select name="lido" class="form-control mb-3">
+            <option value="0">Não</option>
+            <option value="1">Sim</option>
+        </select>
 
-<a href="{{ route('comunicacao.index') }}">Voltar</a>
+        <button class="btn btn-success">Salvar</button>
+    </form>
+</div>
 @endsection

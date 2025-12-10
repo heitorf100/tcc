@@ -1,41 +1,30 @@
 @extends('layouts.app')
-
 @section('content')
-<h1>Prestadores</h1>
+<div class="container">
+  <h1>Prestadores</h1>
+  <a href="{{ route('prestador.create') }}" class="btn btn-primary mb-3">Novo</a>
 
-<a href="{{ route('prestador.create') }}">Novo Prestador</a>
+  @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
-<thead>
-    <tr>
-        <th>ID</th>
-        <th>Usuário ID</th>
-        <th>Tipo</th>
-        <th>Valor</th>
-        <th>Descrição</th>
-        <th>Ações</th>
-    </tr>
-</thead>
-<tbody>
-@forelse($prestadores as $p)
-<tr>
-    <td>{{ $p->id }}</td>
-    <td>{{ $p->usuario_id }}</td>
-    <td>{{ $p->tipo }}</td>
-    <td>{{ $p->valor }}</td>
-    <td>{{ Str::limit($p->descricao, 40) }}</td>
-    <td>
-        <a href="{{ route('prestador.show', $p->id) }}">Ver</a> |
-        <a href="{{ route('prestador.edit', $p->id) }}">Editar</a> |
-        <form action="{{ route('prestador.destroy', $p->id) }}" method="POST" style="display:inline">
-            @csrf @method('DELETE')
-            <button onclick="return confirm('Excluir prestador?')">Excluir</button>
-        </form>
-    </td>
-</tr>
-@empty
-    <tr><td colspan="6">Nenhum prestador cadastrado.</td></tr>
-@endforelse
-</tbody>
-</table>
+  <table class="table table-sm table-bordered">
+    <thead><tr><th>ID</th><th>Nome</th><th>Email</th><th>Valor/h</th><th>Ações</th></tr></thead>
+    <tbody>
+      @foreach($prestadores as $p)
+        <tr>
+          <td>{{ $p->id }}</td>
+          <td>{{ $p->nome }}</td>
+          <td>{{ $p->email }}</td>
+          <td>{{ $p->valor_hora }}</td>
+          <td>
+            <a class="btn btn-sm btn-info" href="{{ route('prestador.show',$p->id) }}">Ver</a>
+            <a class="btn btn-sm btn-warning" href="{{ route('prestador.edit',$p->id) }}">Editar</a>
+            <form action="{{ route('prestador.destroy', $p->id) }}" method="POST" style="display:inline">@csrf @method('DELETE')<button class="btn btn-sm btn-danger">Excluir</button></form>
+          </td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  {{ $prestadores->links() }}
+</div>
 @endsection

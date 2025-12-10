@@ -1,20 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Avaliação #{{ $avaliacao->id }}</h1>
+<div class="container">
+    <h1>Avaliação #{{ $avaliacao->id }}</h1>
 
-<p><strong>Agendamento:</strong> {{ $avaliacao->agendamento_id ?? '-' }}</p>
-<p><strong>Nota:</strong> {{ $avaliacao->nota ?? '-' }}</p>
-<p><strong>Comentário:</strong></p>
-<p>{{ $avaliacao->comentario ?? '-' }}</p>
-<p><strong>Data da Avaliação:</strong> {{ isset($avaliacao->data_avaliacao) ? \Carbon\Carbon::parse($avaliacao->data_avaliacao)->format('d/m/Y') : '-' }}</p>
+    <p><strong>Cliente:</strong> {{ $avaliacao->cliente->nome }}</p>
+    <p><strong>Prestador:</strong> {{ $avaliacao->prestador->nome }}</p>
+    <p><strong>Agendamento:</strong> {{ $avaliacao->agendamento_id ?? 'Nenhum' }}</p>
+    <p><strong>Nota:</strong> {{ $avaliacao->nota }}</p>
+    <p><strong>Comentário:</strong> {{ $avaliacao->comentario }}</p>
 
-<a href="{{ route('avaliacao.edit', $avaliacao->id) }}">Editar</a> |
-<a href="{{ route('avaliacao.index') }}">Voltar</a>
-
-<form action="{{ route('avaliacao.destroy', $avaliacao->id) }}" method="POST" style="display:inline">
-    @csrf
-    @method('DELETE')
-    <button onclick="return confirm('Confirma exclusão?')">Excluir</button>
-</form>
+    <a href="{{ route('avaliacao.edit', $avaliacao->id) }}" class="btn btn-warning">Editar</a>
+    <a href="{{ route('avaliacao.index') }}" class="btn btn-secondary">Voltar</a>
+</div>
 @endsection

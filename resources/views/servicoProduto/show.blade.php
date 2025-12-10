@@ -1,13 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Serviço / Produto #{{ $servico->id }}</h1>
+<div class="container">
+    <h1>Detalhes do Serviço/Produto</h1>
 
-<p><strong>Nome:</strong> {{ $servico->nome }}</p>
-<p><strong>Descrição:</strong> {{ $servico->descricao }}</p>
-<p><strong>Valor:</strong> {{ $servico->valor }}</p>
-<p><strong>Categoria ID:</strong> {{ $servico->categoria_id }}</p>
+    <div class="card">
+        <div class="card-body">
 
-<a href="{{ route('servicoProduto.edit', $servico->id) }}">Editar</a> |
-<a href="{{ route('servicoProduto.index') }}">Voltar</a>
+            <p><strong>ID:</strong> {{ $servicoProduto->id }}</p>
+            <p><strong>Nome:</strong> {{ $servicoProduto->nome }}</p>
+            <p><strong>Descrição:</strong> {{ $servicoProduto->descricao }}</p>
+            <p><strong>Preço:</strong> R$ {{ number_format($servicoProduto->preco, 2, ',', '.') }}</p>
+
+        </div>
+    </div>
+
+    <a href="{{ route('servicoProduto.index') }}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
 @endsection

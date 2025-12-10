@@ -1,48 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Clientes</h1>
+<div class="container">
+  <h1>Clientes</h1>
 
-<a href="{{ route('cliente.create') }}">Novo Cliente</a>
+  <a href="{{ route('cliente.create') }}" class="btn btn-primary mb-3">Novo Cliente</a>
 
-@if(session('success'))
-    <p style="color:green">{{ session('success') }}</p>
-@endif
+  @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+  @endif
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
+  <table class="table table-sm table-bordered">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>CPF</th>
-            <th>Cadastro</th>
-            <th>Ações</th>
-        </tr>
+      <tr><th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Ações</th></tr>
     </thead>
     <tbody>
-    @forelse($clientes as $cliente)
+      @foreach($clientes as $c)
         <tr>
-            <td>{{ $cliente->id }}</td>
-            <td>{{ $cliente->nome ?? ($cliente->nomeCompleto ?? '-') }}</td>
-            <td>{{ $cliente->email ?? '-' }}</td>
-            <td>{{ $cliente->telefone ?? '-' }}</td>
-            <td>{{ $cliente->cpf ?? '-' }}</td>
-            <td>{{ isset($cliente->data_cadastro) ? \Carbon\Carbon::parse($cliente->data_cadastro)->format('d/m/Y') : (isset($cliente->data_cadastro) ? \Carbon\Carbon::parse($cliente->data_cadastro)->format('d/m/Y') : '-') }}</td>
-            <td>
-                <a href="{{ route('cliente.show', $cliente->id) }}">Ver</a> |
-                <a href="{{ route('cliente.edit', $cliente->id) }}">Editar</a> |
-                <form action="{{ route('cliente.destroy', $cliente->id) }}" method="POST" style="display:inline">
-                    @csrf
-                    @method('DELETE')
-                    <button onclick="return confirm('Confirma exclusão do cliente?')">Excluir</button>
-                </form>
-            </td>
+          <td>{{ $c->id }}</td>
+          <td>{{ $c->nome }}</td>
+          <td>{{ $c->email }}</td>
+          <td>{{ $c->telefone }}</td>
+          <td style="white-space:nowrap">
+            <a class="btn btn-sm btn-info" href="{{ route('cliente.show', $c->id) }}">Ver</a>
+            <a class="btn btn-sm btn-warning" href="{{ route('cliente.edit', $c->id) }}">Editar</a>
+            <form action="{{ route('cliente.destroy', $c->id) }}" method="POST" style="display:inline">
+              @csrf @method('DELETE')
+              <button class="btn btn-sm btn-danger" onclick="return confirm('Confirma exclusão?')">Excluir</button>
+            </form>
+          </td>
         </tr>
-    @empty
-        <tr><td colspan="7">Nenhum cliente cadastrado.</td></tr>
-    @endforelse
+      @endforeach
     </tbody>
-</table>
+  </table>
+
+  {{ $clientes->links() }}
+</div>
 @endsection

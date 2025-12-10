@@ -1,26 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Editar Serviço / Produto #{{ $servico->id }}</h1>
+<div class="container">
+    <h1>Editar Serviço/Produto</h1>
 
-<form action="{{ route('servicoProduto.update', $servico->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+    <form action="{{ route('servicoProduto.update', $servicoProduto->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <label>Nome</label><br>
-    <input type="text" name="nome" value="{{ old('nome', $servico->nome) }}"><br><br>
+        <div class="mb-3">
+            <label>Nome</label>
+            <input type="text" name="nome" class="form-control" value="{{ $servicoProduto->nome }}" required>
+        </div>
 
-    <label>Descrição</label><br>
-    <textarea name="descricao">{{ old('descricao', $servico->descricao) }}</textarea><br><br>
+        <div class="mb-3">
+            <label>Descrição</label>
+            <textarea name="descricao" class="form-control">{{ $servicoProduto->descricao }}</textarea>
+        </div>
 
-    <label>Valor</label><br>
-    <input type="number" step="0.01" name="valor" value="{{ old('valor', $servico->valor) }}"><br><br>
+        <div class="mb-3">
+            <label>Preço</label>
+            <input type="number" step="0.01" name="preco" class="form-control" value="{{ $servicoProduto->preco }}" required>
+        </div>
 
-    <label>Categoria ID</label><br>
-    <input type="number" name="categoria_id" value="{{ old('categoria_id', $servico->categoria_id) }}"><br><br>
-
-    <button type="submit">Salvar</button>
-</form>
-
-<a href="{{ route('servicoProduto.index') }}">Voltar</a>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <a href="{{ route('servicoProduto.index') }}" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>
 @endsection

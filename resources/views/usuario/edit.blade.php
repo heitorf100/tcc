@@ -1,30 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Editar Usuário #{{ $usuario->id }}</h1>
+<div class="container">
+    <h1>Editar Usuário</h1>
 
-<form action="{{ route('usuario.update', $usuario->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+    <form action="{{ route('usuario.update', $usuario) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <label>Nome</label><br>
-    <input type="text" name="nome" value="{{ old('nome', $usuario->nome) }}"><br><br>
+        <label>Nome:</label><br>
+        <input type="text" name="name" value="{{ $usuario->name }}" required><br><br>
 
-    <label>Email</label><br>
-    <input type="email" name="email" value="{{ old('email', $usuario->email) }}"><br><br>
+        <label>Email:</label><br>
+        <input type="email" name="email" value="{{ $usuario->email }}" required><br><br>
 
-    <label>Senha (deixe vazio para não alterar)</label><br>
-    <input type="password" name="senha"><br><br>
+        <label>Senha (opcional):</label><br>
+        <input type="password" name="password"><br><br>
+        <small>Deixe em branco para manter a senha atual.</small><br><br>
 
-    <label>Tipo</label><br>
-    <select name="tipo">
-        <option value="cliente" {{ $usuario->tipo == 'cliente' ? 'selected' : '' }}>Cliente</option>
-        <option value="prestador" {{ $usuario->tipo == 'prestador' ? 'selected' : '' }}>Prestador</option>
-        <option value="admin" {{ $usuario->tipo == 'admin' ? 'selected' : '' }}>Admin</option>
-    </select><br><br>
+        <button type="submit">Atualizar</button>
+    </form>
 
-    <button type="submit">Salvar</button>
-</form>
-
-<a href="{{ route('usuario.index') }}">Voltar</a>
+    <br>
+    <a href="{{ route('usuario.index') }}">Voltar</a>
+</div>
 @endsection

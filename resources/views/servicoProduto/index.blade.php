@@ -1,39 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Serviços / Produtos</h1>
+<div class="container">
+    <h1>Serviços / Produtos</h1>
 
-<a href="{{ route('servicoProduto.create') }}">Novo</a>
+    <a href="{{ route('servicoProduto.create') }}" class="btn btn-primary mb-3">Novo Serviço/Produto</a>
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
-<thead>
-<tr>
-    <th>ID</th>
-    <th>Nome</th>
-    <th>Valor</th>
-    <th>Categoria ID</th>
-    <th>Ações</th>
-</tr>
-</thead>
-<tbody>
-@forelse($servicos as $s)
-<tr>
-    <td>{{ $s->id }}</td>
-    <td>{{ $s->nome }}</td>
-    <td>{{ $s->valor }}</td>
-    <td>{{ $s->categoria_id }}</td>
-    <td>
-        <a href="{{ route('servicoProduto.show', $s->id) }}">Ver</a> |
-        <a href="{{ route('servicoProduto.edit', $s->id) }}">Editar</a> |
-        <form action="{{ route('servicoProduto.destroy', $s->id) }}" method="POST" style="display:inline">
-            @csrf @method('DELETE')
-            <button onclick="return confirm('Excluir?')">Excluir</button>
-        </form>
-    </td>
-</tr>
-@empty
-<tr><td colspan="5">Nenhum registro encontrado.</td></tr>
-@endforelse
-</tbody>
-</table>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ($servicoProdutos as $sp)
+            <tr>
+                <td>{{ $sp->id }}</td>
+                <td>{{ $sp->nome }}</td>
+                <td>R$ {{ number_format($sp->preco, 2, ',', '.') }}</td>
+                <td>
+                    <a href="{{ route('servicoProduto.show', $sp->id) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ route('servicoProduto.edit', $sp->id) }}" class="btn btn-warning btn-sm">Editar</a>
+
+                    <form action="{{ route('servicoProduto.destroy', $sp->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
+    {{ $servicoProdutos->links() }}
+</div>
 @endsection

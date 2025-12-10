@@ -1,23 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Editar Comunicação #{{ $comunicacao->id }}</h1>
+<div class="container">
+    <h1>Editar Comunicação</h1>
 
-<form action="{{ route('comunicacao.update', $comunicacao->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+    <form action="{{ route('comunicacao.update', $comunicacao->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <label>Remetente (ID)</label><br>
-    <input type="number" name="remetente_id" value="{{ old('remetente_id', $comunicacao->remetente_id) }}"><br><br>
+        <label>Cliente (opcional)</label>
+        <select name="cliente_id" class="form-control mb-2">
+            <option value="">Nenhum</option>
+            @foreach($clientes as $c)
+                <option value="{{ $c->id }}" @selected($c->id == $comunicacao->cliente_id)>
+                    {{ $c->nome }}
+                </option>
+            @endforeach
+        </select>
 
-    <label>Destinatário (ID)</label><br>
-    <input type="number" name="destinatario_id" value="{{ old('destinatario_id', $comunicacao->destinatario_id) }}"><br><br>
+        <label>Prestador (opcional)</label>
+        <select name="prestador_id" class="form-control mb-2">
+            <option value="">Nenhum</option>
+            @foreach($prestadores as $p)
+                <option value="{{ $p->id }}" @selected($p->id == $comunicacao->prestador_id)>
+                    {{ $p->nome }}
+                </option>
+            @endforeach
+        </select>
 
-    <label>Mensagem</label><br>
-    <textarea name="mensagem">{{ old('mensagem', $comunicacao->mensagem) }}</textarea><br><br>
+        <label>Mensagem</label>
+        <textarea class="form-control mb-2" name="mensagem" required>{{ $comunicacao->mensagem }}</textarea>
 
-    <button type="submit">Salvar</button>
-</form>
+        <label>Lido?</label>
+        <select name="lido" class="form-control mb-3">
+            <option value="0" @selected(!$comunicacao->lido)>Não</option>
+            <option value="1" @selected($comunicacao->lido)>Sim</option>
+        </select>
 
-<a href="{{ route('comunicacao.index') }}">Voltar</a>
+        <button class="btn btn-primary">Salvar</button>
+    </form>
+</div>
 @endsection

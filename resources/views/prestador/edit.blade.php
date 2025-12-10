@@ -1,26 +1,18 @@
 @extends('layouts.app')
-
 @section('content')
-<h1>Editar Prestador #{{ $prestador->id }}</h1>
-
-<form action="{{ route('prestador.update', $prestador->id) }}" method="POST">
-    @csrf
-    @method('PUT')
-
-    <label>Usuário (ID)</label><br>
-    <input type="number" name="usuario_id" value="{{ old('usuario_id', $prestador->usuario_id) }}"><br><br>
-
-    <label>Tipo</label><br>
-    <input type="text" name="tipo" value="{{ old('tipo', $prestador->tipo) }}"><br><br>
-
-    <label>Valor</label><br>
-    <input type="number" step="0.01" name="valor" value="{{ old('valor', $prestador->valor) }}"><br><br>
-
-    <label>Descrição</label><br>
-    <textarea name="descricao">{{ old('descricao', $prestador->descricao) }}</textarea><br><br>
-
-    <button type="submit">Salvar</button>
-</form>
-
-<a href="{{ route('prestador.index') }}">Voltar</a>
+<div class="container">
+  <h1>Editar Prestador</h1>
+  <form action="{{ route('prestador.update',$prestador->id) }}" method="POST">
+    @csrf @method('PUT')
+    <input name="nome" class="form-control mb-2" value="{{ $prestador->nome }}" required>
+    <input name="email" class="form-control mb-2" value="{{ $prestador->email }}">
+    <input name="telefone" class="form-control mb-2" value="{{ $prestador->telefone }}">
+    <textarea name="descricao" class="form-control mb-2">{{ $prestador->descricao }}</textarea>
+    <input name="valor_hora" class="form-control mb-2" value="{{ $prestador->valor_hora }}">
+    <input name="categoria_id" class="form-control mb-2" value="{{ $prestador->categoria_id }}">
+    <input name="usuario_id" class="form-control mb-2" value="{{ $prestador->usuario_id }}">
+    <button class="btn btn-primary">Atualizar</button>
+    <a class="btn btn-secondary" href="{{ route('prestador.index') }}">Cancelar</a>
+  </form>
+</div>
 @endsection
