@@ -9,26 +9,20 @@ class Prestador extends Model
 {
     use HasFactory;
 
-    protected $table = 'prestador';
-    public $timestamps = false;
+    protected $guarded = ['id'];
+    public $timestamps = true;
 
     protected $fillable = [
-        'usuario_id','descricao_servico','tipo_servico',
-        'valor','nota_media_avaliacao','data_criacao_perfil'
+        'nome','email','telefone','descricao','valor_hora','categoria_id','usuario_id'
     ];
 
-    public function usuario()
+    public function avaliacoes()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->hasMany(Avaliacao::class, 'prestador_id');
     }
 
     public function servicos()
     {
         return $this->hasMany(ServicoProduto::class, 'prestador_id');
-    }
-
-    public function agendamentos()
-    {
-        return $this->hasMany(Agendamento::class, 'prestador_id');
     }
 }

@@ -9,47 +9,30 @@ class AgendamentoController extends Controller
 {
     public function index()
     {
-        $agendamentos = Agendamento::all();
-        return view('agendamento.index', compact('agendamentos'));
-    }
-
-    public function create()
-    {
-        return view('agendamento.create');
+        return response()->json(Agendamento::orderBy('data_hora')->paginate(15));
     }
 
     public function store(Request $request)
     {
-        // ajuste validações/campos conforme seu Model
-        $data = $request->all();
-        Agendamento::create($data);
-
-        return redirect()->route('agendamento.index')->with('success', 'Agendamento criado.');
+        $data = $request->validate(['cliente_id'=>'required','prestador_id'=>'required','data_hora'=>'required|date']);
+        $a = Agendamento::create(array_merge($data, ['status'=>'pendente']));
+        return response()->json($a,201);
     }
 
-    public function show($id)
+    public function show(Agendamento $agendamento)
     {
-        $agendamento = Agendamento::findOrFail($id);
-        return view('agendamento.show', compact('agendamento'));
+        return response()->json($agendamento);
     }
 
-    public function edit($id)
+    public function update(Request $request, Agendamento $agendamento)
     {
-        $agendamento = Agendamento::findOrFail($id);
-        return view('agendamento.edit', compact('agendamento'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $agendamento = Agendamento::findOrFail($id);
         $agendamento->update($request->all());
-
-        return redirect()->route('agendamento.index')->with('success', 'Agendamento atualizado.');
+        return response()->json($agendamento);
     }
 
-    public function destroy($id)
+    public function destroy(Agendamento $agendamento)
     {
-        Agendamento::destroy($id);
-        return redirect()->route('agendamento.index')->with('success', 'Agendamento excluído.');
+        $agendamento->delete();
+        return response()->json(['deleted'=>true]);
     }
 }

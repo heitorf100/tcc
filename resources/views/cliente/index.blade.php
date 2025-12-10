@@ -29,7 +29,7 @@
             <td>{{ $cliente->email ?? '-' }}</td>
             <td>{{ $cliente->telefone ?? '-' }}</td>
             <td>{{ $cliente->cpf ?? '-' }}</td>
-            <td>{{ isset($cliente->dataCadast ro) ? \Carbon\Carbon::parse($cliente->dataCadastro)->format('d/m/Y') : (isset($cliente->data_cadastro) ? \Carbon\Carbon::parse($cliente->data_cadastro)->format('d/m/Y') : '-') }}</td>
+            <td>{{ isset($cliente->data_cadastro) ? \Carbon\Carbon::parse($cliente->data_cadastro)->format('d/m/Y') : (isset($cliente->data_cadastro) ? \Carbon\Carbon::parse($cliente->data_cadastro)->format('d/m/Y') : '-') }}</td>
             <td>
                 <a href="{{ route('cliente.show', $cliente->id) }}">Ver</a> |
                 <a href="{{ route('cliente.edit', $cliente->id) }}">Editar</a> |

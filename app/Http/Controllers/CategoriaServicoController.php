@@ -2,31 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoriaServico;
 use Illuminate\Http\Request;
 
 class CategoriaServicoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-{
-    return view('categoria.index');
-}
+    {
+        return response()->json(CategoriaServico::orderBy('nome')->paginate(15));
+    }
 
-public function create()
-{
-    return view('categoria.create');
-}
+    public function store(Request $request)
+    {
+        $data = $request->validate(['nome'=>'required|string|max:255']);
+        $c = CategoriaServico::create($data);
+        return response()->json($c,201);
+    }
 
-public function show($id)
-{
-    return view('categoria.show');
-}
+    public function show(CategoriaServico $categoriaServico)
+    {
+        return response()->json($categoriaServico);
+    }
 
-public function edit($id)
-{
-    return view('categoria.edit');
-}
+    public function update(Request $request, CategoriaServico $categoriaServico)
+    {
+        $categoriaServico->update($request->all());
+        return response()->json($categoriaServico);
+    }
 
+    public function destroy(CategoriaServico $categoriaServico)
+    {
+        $categoriaServico->delete();
+        return response()->json(['deleted'=>true]);
+    }
 }

@@ -2,31 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestador;
 use Illuminate\Http\Request;
 
 class PrestadorController extends Controller
 {
-   /**
-     * Display a listing of the resource.
-     */
     public function index()
-{
-    return view('prestador.index');
-}
+    {
+        $prestadores = Prestador::orderBy('nome')->paginate(15);
+        return response()->json($prestadores);
+    }
 
-public function create()
-{
-    return view('prestador.create');
-}
+    public function store(Request $request)
+    {
+        $data = $request->validate(['nome'=>'required|string|max:255']);
+        $prestador = Prestador::create($request->all());
+        return response()->json($prestador, 201);
+    }
 
-public function show($id)
-{
-    return view('prestador.show');
-}
+    public function show(Prestador $prestador)
+    {
+        return response()->json($prestador);
+    }
 
-public function edit($id)
-{
-    return view('prestador.edit');
-}
+    public function update(Request $request, Prestador $prestador)
+    {
+        $prestador->update($request->all());
+        return response()->json($prestador);
+    }
 
+    public function destroy(Prestador $prestador)
+    {
+        $prestador->delete();
+        return response()->json(['deleted'=>true]);
+    }
 }

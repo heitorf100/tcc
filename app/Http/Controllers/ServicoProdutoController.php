@@ -2,31 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ServicoProduto;
 use Illuminate\Http\Request;
 
 class ServicoProdutoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-{
-    return view('servicoProduto.index');
-}
+    {
+        return response()->json(ServicoProduto::orderBy('nome')->paginate(15));
+    }
 
-public function create()
-{
-    return view('servicoProduto.create');
-}
+    public function store(Request $request)
+    {
+        $data = $request->validate(['nome'=>'required|string|max:255']);
+        $s = ServicoProduto::create($data);
+        return response()->json($s,201);
+    }
 
-public function show($id)
-{
-    return view('servicoProduto.show');
-}
+    public function show(ServicoProduto $servicoProduto)
+    {
+        return response()->json($servicoProduto);
+    }
 
-public function edit($id)
-{
-    return view('servicoProduto.edit');
-}
+    public function update(Request $request, ServicoProduto $servicoProduto)
+    {
+        $servicoProduto->update($request->all());
+        return response()->json($servicoProduto);
+    }
 
+    public function destroy(ServicoProduto $servicoProduto)
+    {
+        $servicoProduto->delete();
+        return response()->json(['deleted'=>true]);
+    }
 }

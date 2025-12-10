@@ -9,19 +9,16 @@ class Avaliacao extends Model
 {
     use HasFactory;
 
-    protected $table = 'avaliacao_servico';
-    public $timestamps = false;
+    protected $guarded = ['id'];
+    protected $fillable = ['cliente_id','prestador_id','agendamento_id','nota','comentario'];
 
-    protected $fillable = [
-        'agendamento_id','nota','comentario','data_avaliacao'
-    ];
-
-    protected $casts = [
-        'data_avaliacao' => 'date',
-    ];
-
-    public function agendamento()
+    public function cliente()
     {
-        return $this->belongsTo(Agendamento::class, 'agendamento_id');
+        return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    public function prestador()
+    {
+        return $this->belongsTo(Prestador::class, 'prestador_id');
     }
 }

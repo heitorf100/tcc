@@ -6,20 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('prestadors', function (Blueprint $table) {
             $table->id();
+            $table->string('nome');
+            $table->string('email')->nullable();
+            $table->string('telefone')->nullable();
+            $table->text('descricao')->nullable();
+            $table->decimal('valor_hora', 8, 2)->nullable();
+            $table->unsignedBigInteger('categoria_id')->nullable();
+            $table->unsignedBigInteger('usuario_id')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('prestadors');

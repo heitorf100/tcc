@@ -6,20 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('servico_produtos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('prestador_id');
+            $table->string('nome');
+            $table->text('descricao')->nullable();
+            $table->decimal('preco', 8, 2)->nullable();
+            $table->string('tipo')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('servico_produtos');
